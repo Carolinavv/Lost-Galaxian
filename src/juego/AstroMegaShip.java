@@ -67,6 +67,7 @@ public class AstroMegaShip {
 	public void setVelocidad(int velocidad) {
 		this.velocidad = velocidad;
 	}
+	
 
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
