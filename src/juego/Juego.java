@@ -27,11 +27,11 @@ public class Juego extends InterfaceJuego{
 		// Procesamiento de un instante de tiempo
 		this.astroAMegaShip.dibujarse(entorno);
 		
-		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)) {
+		if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA) && this.astroAMegaShip.getX() + this.astroAMegaShip.getAncho() / 2 < this.entorno.ancho()) {
 			this.astroAMegaShip.moverDerecha();
 		}
 		
-		if(this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)) {
+		if(this.entorno.estaPresionada(this.entorno.TECLA_IZQUIERDA)&& this.astroAMegaShip.getX() - this.astroAMegaShip.getAncho() / 2 > 0) {
 			this.astroAMegaShip.moverIzquierda();
 		}
 
