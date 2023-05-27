@@ -54,8 +54,9 @@ public class DestructorEstelar {
 		this.y = this.y + 1;
 	}
 	
-	
-	
+	void moverAbajo() {
+		this.y = this.y + 1;
+	}
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
 	}
