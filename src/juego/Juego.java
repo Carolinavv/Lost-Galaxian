@@ -26,7 +26,7 @@ public class Juego extends InterfaceJuego{
 		juegoPerdido = false;
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 15 - v1", 800, 600);
 		//ancho, x, y, alto, vel
-        this.destructorEstelar = new DestructorEstelar[3];
+        this.destructorEstelar = new DestructorEstelar[1];
         generarDestructoresEstelares();
         this.astroAMegaShip = new AstroMegaShip(20, 400, 520, 20,3);			       
 		this.entorno.iniciar();
@@ -56,6 +56,7 @@ public class Juego extends InterfaceJuego{
 			
 			if(colisionNaveEnemigo()) {
 				System.out.println("colsionm");
+				juegoPerdido = true;
 			}
 			
 			
@@ -63,8 +64,8 @@ public class Juego extends InterfaceJuego{
 		}	
 		
 		if(juegoPerdido) {
-			this.entorno.cambiarFont(Font.SANS_SERIF, 20, Color.WHITE);
-			this.entorno.escribirTexto("PERDISTE", 650, 590);
+			this.entorno.cambiarFont(Font.SANS_SERIF, 60, Color.WHITE);
+			this.entorno.escribirTexto("PERDISTE", 200, 300);
 		}
 		// Procesamiento de un instante de tiempo
 		
