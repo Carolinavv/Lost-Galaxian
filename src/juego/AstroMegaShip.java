@@ -69,7 +69,7 @@ public class AstroMegaShip {
 	}
 	
 	public Proyectil disparar() {
-		return new Proyectil(this.x, this.y, 4, 4, 8);
+		return new Proyectil(this.x, this.y, 4, 4, 20);
 	}
 	
 

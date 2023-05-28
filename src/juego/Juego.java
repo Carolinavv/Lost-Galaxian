@@ -44,6 +44,8 @@ public class Juego extends InterfaceJuego{
 			this.astroAMegaShip.dibujarse(entorno);
 			dibujarDestructoresEstelares();
 			moverDestructoresEstelares();
+			System.out.println("astro: x:"+ this.astroAMegaShip.getX()+ ", y:"+ this.astroAMegaShip.getY());
+			
 			if(estaDisparando == false) {
 				if(this.entorno.sePresiono('e')) {
 					proyectil = this.astroAMegaShip.disparar();
@@ -72,10 +74,14 @@ public class Juego extends InterfaceJuego{
 				}
 			}
 			
-//			if(colisionNaveEnemigo()) {
-//				System.out.println("colsionm");
-//				juegoPerdido = true;
-//			}
+			if(colisionNaveEnemigo()) {
+				System.out.println("colsionm");
+				juegoPerdido = true;
+			}
+			
+			if(this.proyectil != null) {
+				colisionProyectilEnemigo();				
+			}
 			
 			if( this.destructorEstelar != null ) {
 				
@@ -83,6 +89,9 @@ public class Juego extends InterfaceJuego{
 				
 				for (int i = 0; i < destructorEstelar.length; i++) {
 					if(this.destructorEstelar[i] != null) {
+						System.out.println("enemigo: x:"+ this.destructorEstelar[i].getX()+ ", y:"+ this.destructorEstelar[i].getY());
+						
+						
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
 							this.destructorEstelar[i] = null; 
 							destructoresEliminados += 1;
@@ -99,8 +108,8 @@ public class Juego extends InterfaceJuego{
 		}	
 		
 		if(juegoPerdido) {
-			this.entorno.cambiarFont(Font.SANS_SERIF, 6, Color.WHITE);
-			this.entorno.escribirTexto("PERDISTE", 200, 300);
+			this.entorno.cambiarFont(Font.SANS_SERIF, 30, Color.WHITE);
+			this.entorno.escribirTexto("PERDISTE", 320, 300);
 		}
 		//fin Tick
 	}
@@ -152,13 +161,26 @@ public class Juego extends InterfaceJuego{
 	
 	private boolean colisionNaveEnemigo() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			if((this.astroAMegaShip.getY() == this.destructorEstelar[i].getY()) || (this.astroAMegaShip.getX() == this.destructorEstelar[i].getY())) {
+			if(
+					(this.destructorEstelar[i].getY() >=  this.astroAMegaShip.getY()-(this.astroAMegaShip.getAlto()/2) && this.destructorEstelar[i].getY() <=  this.astroAMegaShip.getY()+(this.astroAMegaShip.getAlto()/2)) &&
+					(this.destructorEstelar[i].getX() >=  this.astroAMegaShip.getX()-(this.astroAMegaShip.getAncho()/2) && this.destructorEstelar[i].getX() <=  this.astroAMegaShip.getX()+(this.astroAMegaShip.getAncho()/2))) {
+				return true;
+			}
+				
+		}
+		return false;
+		
+	}
+	
+	public boolean colisionProyectilEnemigo() {
+		for (int i = 0; i < destructorEstelar.length; i++) {
+			if((this.proyectil.getY() == this.destructorEstelar[1].getY()) && (this.proyectil.getX() == this.destructorEstelar[1].getX())) {
+				System.out.println("coli");
 				return true;
 			}
 					
 		}
 		return false;
-		
 	}
 	
 	public void movimientoproyectil() {
