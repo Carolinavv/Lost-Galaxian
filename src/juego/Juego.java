@@ -13,11 +13,13 @@ public class Juego extends InterfaceJuego{
 	private Entorno entorno;
 	private AstroMegaShip astroAMegaShip;
 	private DestructorEstelar[] destructorEstelar;
+	private Proyectil proyectil;
 	Random rand = new Random();
 	//ubicaciones x e y para destructores
     boolean destructores = false;
     int destructoresEliminados = 0;
     boolean juegoPerdido;
+    boolean estaDisparando = false;
 	
 	
 	Juego()
@@ -26,9 +28,10 @@ public class Juego extends InterfaceJuego{
 		juegoPerdido = false;
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 15 - v1", 800, 600);
 		//ancho, x, y, alto, vel
-        this.destructorEstelar = new DestructorEstelar[1];
+        this.destructorEstelar = new DestructorEstelar[2];
         generarDestructoresEstelares();
-        this.astroAMegaShip = new AstroMegaShip(20, 400, 520, 20,3);			       
+        this.astroAMegaShip = new AstroMegaShip(20, 400, 520, 20,3);			
+        
 		this.entorno.iniciar();
 	}
 
@@ -37,11 +40,25 @@ public class Juego extends InterfaceJuego{
 	{
 		if(!juegoPerdido) {
 			this.entorno.cambiarFont(Font.SANS_SERIF, 20, Color.WHITE);
-			this.entorno.escribirTexto("Eliminados:", 650, 590);
+			this.entorno.escribirTexto("Eliminados: "+ destructoresEliminados, 650, 590);
 			this.astroAMegaShip.dibujarse(entorno);
-			dibujarDestructoresEstelares();
-			moverDestructoresEstelares();
-		
+			
+			if(estaDisparando == false) {
+				if(this.entorno.sePresiono('e')) {
+					proyectil = this.astroAMegaShip.disparar();
+					
+					estaDisparando = true;
+				}
+				
+			}
+			movimientoproyectil();
+			if(this.proyectil!= null ) {
+				if(this.proyectil.getY() >= 600 || this.proyectil.getY() <= 0) {
+					this.proyectil = null;
+					estaDisparando = false;
+				}				
+			}
+			
 			
 			if(!colisionBordeDer()) {
 				if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d') && this.astroAMegaShip.getX() + this.astroAMegaShip.getAncho() / 2 < this.entorno.ancho()) {
@@ -54,20 +71,35 @@ public class Juego extends InterfaceJuego{
 				}
 			}
 			
-			if(colisionNaveEnemigo()) {
-				System.out.println("colsionm");
-				juegoPerdido = true;
+//			if(colisionNaveEnemigo()) {
+//				System.out.println("colsionm");
+//				juegoPerdido = true;
+//			}
+			
+			if( this.destructorEstelar != null ) {
+				dibujarDestructoresEstelares();
+				moverDestructoresEstelares();
+				
+				System.out.println(this.destructorEstelar);
+				for (int i = 0; i < destructorEstelar.length; i++) {
+					if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
+						//this.destructorEstelar[i] = null; ACA BORRAR DESTRUCTOR
+						destructoresEliminados += 1;
+					}
+					
+				}
 			}
+			
+			
 			
 			
 			
 		}	
 		
 		if(juegoPerdido) {
-			this.entorno.cambiarFont(Font.SANS_SERIF, 60, Color.WHITE);
+			this.entorno.cambiarFont(Font.SANS_SERIF, 6, Color.WHITE);
 			this.entorno.escribirTexto("PERDISTE", 200, 300);
 		}
-		// Procesamiento de un instante de tiempo
 		
 
 	
@@ -115,6 +147,24 @@ public class Juego extends InterfaceJuego{
 		return false;
 		
 	}
+	
+	public void movimientoproyectil() {
+		if(proyectil != null) {
+			if(this.proyectil.avanzar()) {
+				this.proyectil.dibujarse(this.entorno);
+			}else {
+				proyectil = null;
+			}
+		}
+	}
+	
+	public void borrarDisparo(Proyectil disparo) {
+		if(disparo.getX() > 800 || disparo.getX() < 0) {
+			disparo = null;
+		}
+	}
+	
+	
 	
 	
 	

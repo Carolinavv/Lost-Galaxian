@@ -68,6 +68,10 @@ public class AstroMegaShip {
 		this.velocidad = velocidad;
 	}
 	
+	public Proyectil disparar() {
+		return new Proyectil(this.x, this.y, 4, 4, 8);
+	}
+	
 
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
