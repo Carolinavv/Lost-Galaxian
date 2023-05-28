@@ -44,7 +44,7 @@ public class Juego extends InterfaceJuego{
 			this.astroAMegaShip.dibujarse(entorno);
 			dibujarDestructoresEstelares();
 			moverDestructoresEstelares();
-			System.out.println("astro: x:"+ this.astroAMegaShip.getX()+ ", y:"+ this.astroAMegaShip.getY());
+			//System.out.println("astro: x:"+ this.astroAMegaShip.getX()+ ", y:"+ this.astroAMegaShip.getY());
 			
 			if(estaDisparando == false) {
 				if(this.entorno.sePresiono('e')) {
@@ -89,7 +89,7 @@ public class Juego extends InterfaceJuego{
 				
 				for (int i = 0; i < destructorEstelar.length; i++) {
 					if(this.destructorEstelar[i] != null) {
-						System.out.println("enemigo: x:"+ this.destructorEstelar[i].getX()+ ", y:"+ this.destructorEstelar[i].getY());
+						//System.out.println("enemigo: x:"+ this.destructorEstelar[i].getX()+ ", y:"+ this.destructorEstelar[i].getY());
 						
 						
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
@@ -118,7 +118,7 @@ public class Juego extends InterfaceJuego{
 		for (int i = 0; i < destructorEstelar.length; i++) {
 				int xRand = rand.nextInt(790);
 				int yRand = rand.nextInt(400);
-				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,10, 10, 2);				
+				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,20, 20, 2);				
 			
 		}
 	}
@@ -126,7 +126,7 @@ public class Juego extends InterfaceJuego{
 	private void generarNuevoDestructorEstelar(int posicion) {
 		int xRand = rand.nextInt(790);
 		int yRand = rand.nextInt(400);
-		this.destructorEstelar[posicion] = new DestructorEstelar(xRand, yRand,10, 10, 2);	
+		this.destructorEstelar[posicion] = new DestructorEstelar(xRand, yRand,20, 20, 2);	
 	}
 	
 	private void dibujarDestructoresEstelares() {
@@ -174,9 +174,12 @@ public class Juego extends InterfaceJuego{
 	
 	public boolean colisionProyectilEnemigo() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			if((this.proyectil.getY() == this.destructorEstelar[1].getY()) && (this.proyectil.getX() == this.destructorEstelar[1].getX())) {
-				System.out.println("coli");
+			if(
+					(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
+					(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
+				System.out.println("colisiona");
 				return true;
+				
 			}
 					
 		}
