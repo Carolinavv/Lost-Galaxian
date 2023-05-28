@@ -86,6 +86,7 @@ public class Juego extends InterfaceJuego{
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
 							this.destructorEstelar[i] = null; 
 							destructoresEliminados += 1;
+							generarNuevoDestructorEstelar(i);
 						}						
 					}				
 				}
@@ -101,21 +102,22 @@ public class Juego extends InterfaceJuego{
 			this.entorno.cambiarFont(Font.SANS_SERIF, 6, Color.WHITE);
 			this.entorno.escribirTexto("PERDISTE", 200, 300);
 		}
-		
-
-	
-		
-
+		//fin Tick
 	}
 	
 	private void generarDestructoresEstelares() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			
 				int xRand = rand.nextInt(790);
 				int yRand = rand.nextInt(400);
 				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,10, 10, 2);				
 			
 		}
+	}
+	
+	private void generarNuevoDestructorEstelar(int posicion) {
+		int xRand = rand.nextInt(790);
+		int yRand = rand.nextInt(400);
+		this.destructorEstelar[posicion] = new DestructorEstelar(xRand, yRand,10, 10, 2);	
 	}
 	
 	private void dibujarDestructoresEstelares() {
