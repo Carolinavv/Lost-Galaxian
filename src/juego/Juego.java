@@ -42,7 +42,8 @@ public class Juego extends InterfaceJuego{
 			this.entorno.cambiarFont(Font.SANS_SERIF, 20, Color.WHITE);
 			this.entorno.escribirTexto("Eliminados: "+ destructoresEliminados, 650, 590);
 			this.astroAMegaShip.dibujarse(entorno);
-			
+			dibujarDestructoresEstelares();
+			moverDestructoresEstelares();
 			if(estaDisparando == false) {
 				if(this.entorno.sePresiono('e')) {
 					proyectil = this.astroAMegaShip.disparar();
@@ -77,16 +78,16 @@ public class Juego extends InterfaceJuego{
 //			}
 			
 			if( this.destructorEstelar != null ) {
-				dibujarDestructoresEstelares();
-				moverDestructoresEstelares();
 				
-				System.out.println(this.destructorEstelar);
+				
+				
 				for (int i = 0; i < destructorEstelar.length; i++) {
-					if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
-						//this.destructorEstelar[i] = null; ACA BORRAR DESTRUCTOR
-						destructoresEliminados += 1;
-					}
-					
+					if(this.destructorEstelar[i] != null) {
+						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
+							this.destructorEstelar[i] = null; 
+							destructoresEliminados += 1;
+						}						
+					}				
 				}
 			}
 			
@@ -109,21 +110,31 @@ public class Juego extends InterfaceJuego{
 	
 	private void generarDestructoresEstelares() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			 int xRand = rand.nextInt(790);
-			 int yRand = rand.nextInt(400);
-			 this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,10, 10, 2);
+			
+				int xRand = rand.nextInt(790);
+				int yRand = rand.nextInt(400);
+				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,10, 10, 2);				
+			
 		}
 	}
 	
 	private void dibujarDestructoresEstelares() {
 		for (int i = 0; i < destructorEstelar.length ; i++) {
-			this.destructorEstelar[i].dibujarse(entorno);			
+			if(this.destructorEstelar[i] != null) {
+				this.destructorEstelar[i].dibujarse(entorno);							
+			}else {
+				System.out.println(i+"es nulo");
+			}
 		}
 	}
 	
 	private void moverDestructoresEstelares() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			this.destructorEstelar[i].moverAbajo();			
+			if(this.destructorEstelar[i] != null) {
+				this.destructorEstelar[i].moverAbajo();							
+			}else {
+				System.out.println(i+"es nulo");
+			}
 		}
 	}
 	
