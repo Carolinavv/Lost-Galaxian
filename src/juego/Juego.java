@@ -15,6 +15,7 @@ public class Juego extends InterfaceJuego{
 	private Entorno entorno;
 	private AstroMegaShip astroAMegaShip;
 	private DestructorEstelar[] destructorEstelar;
+	private Asteroide[] asteroides;
 	private Proyectil proyectil;
 	Random rand = new Random();
 	//ubicaciones x e y para destructores
@@ -26,6 +27,7 @@ public class Juego extends InterfaceJuego{
     public Image fondo = Herramientas.cargarImagen("Imagenes/Fondo.png");
 	public Image nave = Herramientas.cargarImagen("Imagenes/AstroMegaShip.png");
 	public Image ImagenProyectil = Herramientas.cargarImagen("Imagenes/Proyectil.png");
+	//public Image ImagenAsteroide = Herramientas.cargarImagen("Imagenes/Asteroide.png");
 	
 	
 	
@@ -37,8 +39,10 @@ public class Juego extends InterfaceJuego{
 		//ancho, x, y, alto, vel
         this.destructorEstelar = new DestructorEstelar[2];
         generarDestructoresEstelares(ImagenDestructor);
-        this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);			
+        this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);	
+        this.asteroides = new Asteroide[3];
         this.entorno.dibujarImagen(fondo, 100, 100, 0);
+        generarAsteroides();
 		this.entorno.iniciar();
 	}
 
@@ -50,7 +54,10 @@ public class Juego extends InterfaceJuego{
 			this.entorno.escribirTexto("Eliminados: "+ destructoresEliminados, 650, 590);
 			this.astroAMegaShip.dibujarse(entorno);
 			dibujarDestructoresEstelares();
+			dibujarAsteroides();
 			moverDestructoresEstelares();
+			moverAsteroides();
+			
 			//System.out.println("astro: x:"+ this.astroAMegaShip.getX()+ ", y:"+ this.astroAMegaShip.getY());
 			
 			if(estaDisparando == false) {
@@ -135,6 +142,51 @@ public class Juego extends InterfaceJuego{
 			
 		}
 	}
+	
+	
+	private void generarAsteroides() {
+		for (int i = 0; i < asteroides.length; i++) {
+			int flagDireccion = getRandomNumber(1,3);
+			int xRand = getRandomNumber(50, 780);
+			int yRand = getRandomNumber(50, 200);
+			this.asteroides[i] = new Asteroide(xRand, yRand,20, 20, 2, flagDireccion);				
+		
+		}
+	}
+	
+	private void generarNuevosAsteroides(int posicion) {
+		int flagDireccion = getRandomNumber(1,3);
+		int xRand = getRandomNumber(50, 780);
+		int yRand = getRandomNumber(50, 200);
+		this.asteroides[posicion] = new Asteroide(xRand, yRand,20, 20, 2, flagDireccion);		
+	}
+	
+	private void dibujarAsteroides() {
+		for (int i = 0; i < asteroides.length ; i++) {
+			if(this.asteroides[i] != null) {
+				this.asteroides[i].dibujarse(entorno);							
+			}else {
+				System.out.println(i+"es nulo");
+			}
+		}
+	}
+	
+	private void moverAsteroides() {
+		for (int i = 0; i < asteroides.length; i++) {
+			if(this.asteroides[i] != null) {
+				if(this.asteroides[i].getDireccion() == 1) {
+					this.asteroides[i].moverDerecha();
+				}else {
+					this.asteroides[i].moverIzquierda();
+				}
+				
+			}else {
+				System.out.println(i+"es nulo");
+			}
+		}
+	}
+	
+	
 	
 	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
 		int xRand = getRandomNumber(50, 780);

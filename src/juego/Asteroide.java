@@ -1,6 +1,7 @@
 package juego;
 import java.awt.Image;
 import entorno.Entorno;
+import java.awt.Color;
 
 public class Asteroide {
 	private int x;
@@ -8,18 +9,19 @@ public class Asteroide {
 	private int ancho;
 	private int alto;
 	private int velocidad;
-	private Image ImagenAsteroide;
+	//private Image ImagenAsteroide;
+	private int direccion;
 	
 	
-	
-	public Asteroide(int x, int y, int ancho, int alto, int velocidad, Image imagenAsteroide) {
+	public Asteroide(int x, int y, int ancho, int alto, int velocidad, int direccion) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
-		this.ImagenAsteroide = imagenAsteroide;
+		this.direccion = direccion;
+		//this.ImagenAsteroide = imagenAsteroide;
 	}
 	
 	public int getX() {
@@ -62,9 +64,28 @@ public class Asteroide {
 		this.velocidad = velocidad;
 	}
 	
+	
+	public int getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(int direccion) {
+		this.direccion = direccion;
+	}
+
+	void moverDerecha() {
+		this.y = this.y + 1;
+		this.x = this.x + 1;
+	}
+	
+	void moverIzquierda() {
+		this.y = this.y + 1;
+		this.x = this.x - 1;
+	}
+	
 	void dibujarse(Entorno entorno) {
-		entorno.dibujarImagen(ImagenAsteroide, this.x, this.y, 0);
-		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
+		//entorno.dibujarImagen(ImagenAsteroide, this.x, this.y, 0);
+		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
 	}
 	
 	
