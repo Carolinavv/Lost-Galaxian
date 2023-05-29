@@ -7,6 +7,8 @@ import entorno.InterfaceJuego;
 import java.awt.Color;
 import java.util.Iterator;
 import java.util.Random;
+import java.awt.Image;
+import entorno.Herramientas;
 
 public class Juego extends InterfaceJuego{
 
@@ -20,18 +22,23 @@ public class Juego extends InterfaceJuego{
     int destructoresEliminados = 0;
     boolean juegoPerdido;
     boolean estaDisparando = false;
+    public Image ImagenDestructor = Herramientas.cargarImagen("Imagenes/DestructorEstelar.png");
+    public Image fondo = Herramientas.cargarImagen("Imagenes/Fondo.png");
+	public Image nave = Herramientas.cargarImagen("Imagenes/AstroMegaShip.png");
+	public Image ImagenProyectil = Herramientas.cargarImagen("Imagenes/Proyectil.png");
+	
 	
 	
 	Juego()
 	{
-		Random rand = new Random();
-		juegoPerdido = false;
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 15 - v1", 800, 600);
+		juegoPerdido = false;
+		
 		//ancho, x, y, alto, vel
         this.destructorEstelar = new DestructorEstelar[2];
-        generarDestructoresEstelares();
-        this.astroAMegaShip = new AstroMegaShip(20, 400, 520, 20,3);			
-        
+        generarDestructoresEstelares(ImagenDestructor);
+        this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);			
+        this.entorno.dibujarImagen(fondo, 100, 100, 0);
 		this.entorno.iniciar();
 	}
 
@@ -60,6 +67,11 @@ public class Juego extends InterfaceJuego{
 					this.proyectil = null;
 					estaDisparando = false;
 				}				
+				if(colisionProyectilEnemigo()) {
+					destructoresEliminados += 1;
+					this.proyectil = null;
+					estaDisparando = false;
+				}	
 			}
 			
 			
@@ -79,16 +91,9 @@ public class Juego extends InterfaceJuego{
 				juegoPerdido = true;
 			}
 			
-			if(this.proyectil != null) {
-				if(colisionProyectilEnemigo()) {
-					
-				}				
-			}
+			
 			
 			if( this.destructorEstelar != null ) {
-				
-				
-				
 				for (int i = 0; i < destructorEstelar.length; i++) {
 					if(this.destructorEstelar[i] != null) {
 						//System.out.println("enemigo: x:"+ this.destructorEstelar[i].getX()+ ", y:"+ this.destructorEstelar[i].getY());
@@ -97,10 +102,10 @@ public class Juego extends InterfaceJuego{
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() <= 0) {
 							this.destructorEstelar[i] = null; 
 							destructoresEliminados += 1;
-							generarNuevoDestructorEstelar(i);
+							generarNuevoDestructorEstelar(i, ImagenDestructor);
 						}						
 					}else {
-						generarNuevoDestructorEstelar(i);
+						generarNuevoDestructorEstelar(i, ImagenDestructor);
 					}
 					
 				}
@@ -118,20 +123,23 @@ public class Juego extends InterfaceJuego{
 		}
 		//fin Tick
 	}
+	public int getRandomNumber(int min, int max) {
+	    return (int) ((Math.random() * (max - min)) + min);
+	}
 	
-	private void generarDestructoresEstelares() {
+	private void generarDestructoresEstelares(Image ImagenDestructor) {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-				int xRand = rand.nextInt(790);
-				int yRand = rand.nextInt(400);
-				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,20, 20, 2);				
+				int xRand = getRandomNumber(50, 780);
+				int yRand = getRandomNumber(50, 200);
+				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,20, 20, 2, ImagenDestructor);				
 			
 		}
 	}
 	
-	private void generarNuevoDestructorEstelar(int posicion) {
-		int xRand = rand.nextInt(790);
-		int yRand = rand.nextInt(400);
-		this.destructorEstelar[posicion] = new DestructorEstelar(xRand, yRand,20, 20, 2);	
+	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
+		int xRand = getRandomNumber(50, 780);
+		int yRand = getRandomNumber(50, 200);
+		this.destructorEstelar[posicion] = new DestructorEstelar(xRand, yRand, 50, 50, 2, ImagenDestructor);	
 	}
 	
 	private void dibujarDestructoresEstelares() {
@@ -180,13 +188,12 @@ public class Juego extends InterfaceJuego{
 	
 	public boolean colisionProyectilEnemigo() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			if(destructorEstelar[i] != null) {
+			if(destructorEstelar[i] != null && this.proyectil != null) {
 				if(
 						(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
 						(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
 					System.out.println("colisiona");
 					this.destructorEstelar[i] = null;
-					destructoresEliminados += 1;
 					return true;
 					
 				}

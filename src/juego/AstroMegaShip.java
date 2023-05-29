@@ -1,7 +1,8 @@
 package juego;
 
 import java.awt.Color;
-
+import java.awt.Image;
+import entorno.Herramientas;
 import entorno.Entorno;
 
 public class AstroMegaShip {
@@ -10,13 +11,15 @@ public class AstroMegaShip {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+	private Image ImagenAstro;
 	
-	AstroMegaShip(int ancho, int x, int y, int alto, int velocidad) {
+	AstroMegaShip(int ancho, int x, int y, int alto, int velocidad, Image ImagenAstro) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
+		this.ImagenAstro = ImagenAstro;
 	}
 	
 	public int getX() {
@@ -74,6 +77,7 @@ public class AstroMegaShip {
 	
 
 	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
+//		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
+		entorno.dibujarImagen(ImagenAstro, this.x, this.y, 0);
 	}
 }

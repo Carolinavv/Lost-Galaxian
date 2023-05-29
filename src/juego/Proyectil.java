@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Image;
 
 import entorno.Entorno;
 
@@ -10,6 +11,7 @@ public class Proyectil {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+	private Image ImagenProyectil;
 		
 	public Proyectil(int x, int y, int ancho, int alto, int velocidad) {
 		this.x = x;
@@ -17,6 +19,7 @@ public class Proyectil {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
+		this.ImagenProyectil = entorno.Herramientas.cargarImagen("Imagenes/Proyectil.png");
 	}
 	
 	public int getX() {
@@ -65,7 +68,8 @@ public class Proyectil {
 	}
 	
 	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.GREEN);
+		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.GREEN);
+		entorno.dibujarImagen(ImagenProyectil, this.x, this.y, 0);
 	}
 	
 }

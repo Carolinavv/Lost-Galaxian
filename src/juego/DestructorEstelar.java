@@ -1,6 +1,7 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.util.Random;
 
 import entorno.Entorno;
@@ -11,13 +12,15 @@ public class DestructorEstelar {
 	private int ancho;
 	private int alto;
 	private int velocidad;
+	private Image ImagenDestructor;
 
-	public DestructorEstelar(int x, int y, int ancho, int alto, int velocidad) {
+	public DestructorEstelar(int x, int y, int ancho, int alto, int velocidad , Image ImagenDestructor) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.velocidad = velocidad;
+		this.ImagenDestructor = ImagenDestructor;
 	}
 	
 	public int getX() {
@@ -57,8 +60,10 @@ public class DestructorEstelar {
 	void moverAbajo() {
 		this.y = this.y + 1;
 	}
+	
 	void dibujarse(Entorno entorno) {
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
+		entorno.dibujarImagen(ImagenDestructor, this.x, this.y, 0);
+		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
 	}
 	
 	
