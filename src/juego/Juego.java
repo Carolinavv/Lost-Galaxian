@@ -80,7 +80,9 @@ public class Juego extends InterfaceJuego{
 			}
 			
 			if(this.proyectil != null) {
-				colisionProyectilEnemigo();				
+				if(colisionProyectilEnemigo()) {
+					
+				}				
 			}
 			
 			if( this.destructorEstelar != null ) {
@@ -97,7 +99,10 @@ public class Juego extends InterfaceJuego{
 							destructoresEliminados += 1;
 							generarNuevoDestructorEstelar(i);
 						}						
-					}				
+					}else {
+						generarNuevoDestructorEstelar(i);
+					}
+					
 				}
 			}
 			
@@ -161,12 +166,13 @@ public class Juego extends InterfaceJuego{
 	
 	private boolean colisionNaveEnemigo() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
+			if(destructorEstelar[i] != null) {
 			if(
 					(this.destructorEstelar[i].getY() >=  this.astroAMegaShip.getY()-(this.astroAMegaShip.getAlto()/2) && this.destructorEstelar[i].getY() <=  this.astroAMegaShip.getY()+(this.astroAMegaShip.getAlto()/2)) &&
 					(this.destructorEstelar[i].getX() >=  this.astroAMegaShip.getX()-(this.astroAMegaShip.getAncho()/2) && this.destructorEstelar[i].getX() <=  this.astroAMegaShip.getX()+(this.astroAMegaShip.getAncho()/2))) {
 				return true;
 			}
-				
+			}
 		}
 		return false;
 		
@@ -174,14 +180,18 @@ public class Juego extends InterfaceJuego{
 	
 	public boolean colisionProyectilEnemigo() {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-			if(
-					(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
-					(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
-				System.out.println("colisiona");
-				return true;
-				
-			}
+			if(destructorEstelar[i] != null) {
+				if(
+						(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
+						(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
+					System.out.println("colisiona");
+					this.destructorEstelar[i] = null;
+					destructoresEliminados += 1;
+					return true;
 					
+				}
+							
+			}
 		}
 		return false;
 	}
