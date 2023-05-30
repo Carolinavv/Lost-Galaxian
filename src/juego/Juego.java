@@ -18,7 +18,6 @@ public class Juego extends InterfaceJuego{
 	private Asteroide[] asteroides;
 	private Proyectil proyectil;
 	Random rand = new Random();
-	//ubicaciones x e y para destructores
     boolean destructores = false;
     int destructoresEliminados = 0;
     boolean juegoPerdido;
@@ -63,13 +62,15 @@ public class Juego extends InterfaceJuego{
 					estaDisparando = true;
 				}
 			}
-			
 			movimientoproyectil();
+			
 			if(this.proyectil!= null ) {
+				//Borra el proyectil al llegar a el borde superior
 				if(this.proyectil.getY() >= 600 || this.proyectil.getY() <= 0) {
 					this.proyectil = null;
 					estaDisparando = false;
-				}				
+				}
+				//Maneja colisiones proyectil - enemigo
 				if(colisionProyectilEnemigo()) {
 					destructoresEliminados += 1;
 					this.proyectil = null;
@@ -77,7 +78,7 @@ public class Juego extends InterfaceJuego{
 				}	
 			}
 			
-			
+			//Evita que astroMegaShip no salga de la pantalla
 			if(!colisionBordeDer()) {
 				if(this.entorno.estaPresionada(this.entorno.TECLA_DERECHA)|| this.entorno.estaPresionada('d') && this.astroAMegaShip.getX() + this.astroAMegaShip.getAncho() / 2 < this.entorno.ancho()) {
 					this.astroAMegaShip.moverDerecha();
@@ -90,16 +91,19 @@ public class Juego extends InterfaceJuego{
 				}
 			}
 		
+			//Manejo colision Astromegaship - enemigo
 			if(colisionNaveEnemigo()) {
 				juegoPerdido = true;
 			}
 			
 			if(this.asteroides != null) {
+				//colision asteroides - AstromegaShip
 				if(colisionAsteroideConAstroMegaShip()) {
 					juegoPerdido = true;
 				}
-				for (int i = 0; i < asteroides.length; i++) {
 				
+				for (int i = 0; i < asteroides.length; i++) {
+				//Genera nuevos asteroides cuando estos salen de la pantalla
 					if(this.asteroides[i].getY() >= 600 || this.asteroides[i].getY() <= 0 || this.asteroides[i].getX() > 800 || this.asteroides[i].getX() < 0 ) {
 							this.asteroides[i] = null;
 							generarNuevosAsteroides(i);
@@ -110,16 +114,16 @@ public class Juego extends InterfaceJuego{
 			
 			if( this.destructorEstelar != null ) {
 				for (int i = 0; i < destructorEstelar.length; i++) {
-					if(colisionAsteroideDestructorEstelar()) {
-					}
+					colisionAsteroideDestructorEstelar();
 					if(this.destructorEstelar[i] != null) {
+						//Borra el enemigo al llegar al borde inferior
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() < -100) {
-							this.destructorEstelar[i] = null; 
-							destructoresEliminados += 1;
-							System.out.println("pasa");
+							this.destructorEstelar[i] = null;
+							//genera un nuevo enemigo en la posicion del arreglo del que fue borrado
 							generarNuevoDestructorEstelar(i, ImagenDestructor);
 						}						
 					}else {
+						//genera un nuevo enemigo en la posicion del arreglo del que fue borrado
 						generarNuevoDestructorEstelar(i, ImagenDestructor);
 					}
 					
@@ -146,9 +150,18 @@ public class Juego extends InterfaceJuego{
 	
 	private void generarDestructoresEstelares(Image ImagenDestructor) {
 		for (int i = 0; i < destructorEstelar.length; i++) {
-				int xRand = getRandomNumber(50, 780);
-				int yRand = 0;
-				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,50, 55, 2, ImagenDestructor);				
+			int xRand = getRandomNumber(50, 780);
+			int yRand = 0;
+			int xRand2;
+			if(i>=1) {
+				do {
+					xRand2 = getRandomNumber(50, 780);
+				}while(this.destructorEstelar[i-1].getX()+80 < xRand2 && this.destructorEstelar[i-1].getX()-80 > xRand2 );	
+				this.destructorEstelar[i] = new DestructorEstelar(xRand2, yRand,50, 55, 2, ImagenDestructor);
+				return;
+			}else {
+				this.destructorEstelar[i] = new DestructorEstelar(xRand, yRand,50, 55, 2, ImagenDestructor);								
+			}
 		}
 	}
 	
@@ -181,8 +194,6 @@ public class Juego extends InterfaceJuego{
 		for (int i = 0; i < asteroides.length ; i++) {
 			if(this.asteroides[i] != null) {
 				this.asteroides[i].dibujarse(entorno);							
-			}else {
-				System.out.println(i+"es nulo");
 			}
 		}
 	}
@@ -195,13 +206,9 @@ public class Juego extends InterfaceJuego{
 				}else {
 					this.asteroides[i].moverIzquierda();
 				}
-				
-			}else {
-				System.out.println(i+"es nulo");
 			}
 		}
 	}
-	
 	
 	
 	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
@@ -214,8 +221,6 @@ public class Juego extends InterfaceJuego{
 		for (int i = 0; i < destructorEstelar.length ; i++) {
 			if(this.destructorEstelar[i] != null) {
 				this.destructorEstelar[i].dibujarse(entorno);							
-			}else {
-				System.out.println(i+"es nulo");
 			}
 		}
 	}
@@ -224,8 +229,6 @@ public class Juego extends InterfaceJuego{
 		for (int i = 0; i < destructorEstelar.length; i++) {
 			if(this.destructorEstelar[i] != null) {
 				this.destructorEstelar[i].moverAbajo();							
-			}else {
-				System.out.println(i+"es nulo");
 			}
 		}
 	}
@@ -235,7 +238,7 @@ public class Juego extends InterfaceJuego{
 			if(
 					(this.asteroides[i].getY() >=  this.astroAMegaShip.getY()-(this.astroAMegaShip.getAlto()/2) && this.asteroides[i].getY() <=  this.astroAMegaShip.getY()+(this.astroAMegaShip.getAlto()/2)) &&
 					(this.asteroides[i].getX() >=  this.astroAMegaShip.getX()-(this.astroAMegaShip.getAncho()/2) && this.asteroides[i].getX() <=  this.astroAMegaShip.getX()+(this.astroAMegaShip.getAncho()/2))) {
-				System.out.println("colision asteroide / nave");
+				
 				return true;
 			}			
 			
@@ -248,17 +251,19 @@ public class Juego extends InterfaceJuego{
 			for(int j = 0; j < destructorEstelar.length ; j++) {
 				if(asteroides[i] != null && destructorEstelar[j] != null) {
 					if(
+							//Si el asteroide se acerca a una destructorEstelar se mueve el destructorEstelar para evitar una colsion
 							(this.asteroides[i].getY()+30 >=  this.destructorEstelar[j].getY()-(this.destructorEstelar[j].getAlto()/2) && this.asteroides[i].getY() <=  this.destructorEstelar[j].getY()+(this.destructorEstelar[j].getAlto()/2)) &&
 							(this.asteroides[i].getX()+30 >=  this.destructorEstelar[j].getX()-(this.destructorEstelar[j].getAncho()/2) && this.asteroides[i].getX() <=  this.destructorEstelar[j].getX()+(this.destructorEstelar[j].getAncho()/2))) {
 						if(this.asteroides[i].getDireccion() == 1) {
+							//Mueve el destructor a la izquierda
 							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()-50);
-							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-50);
-							System.out.println("colision asteroide / enemigo mueve der");
+							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
 							return true;
 						}else {
+							//Mueve el destructor a la derecha
 							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()+50);
-							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-50);
-							System.out.println("colision asteroide / enemigo mueve izq");
+							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
+							
 							return true;
 						}
 						
@@ -304,7 +309,6 @@ public class Juego extends InterfaceJuego{
 				if(
 						(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
 						(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
-					System.out.println("colisiona");
 					this.destructorEstelar[i] = null;
 					return true;
 					
@@ -324,21 +328,6 @@ public class Juego extends InterfaceJuego{
 			}
 		}
 	}
-	
-	public void borrarDisparo(Proyectil disparo) {
-		if(disparo.getX() > 800 || disparo.getX() < 0) {
-			disparo = null;
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 
