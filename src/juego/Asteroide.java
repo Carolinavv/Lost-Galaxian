@@ -9,11 +9,11 @@ public class Asteroide {
 	private int ancho;
 	private int alto;
 	private int velocidad;
-	//private Image ImagenAsteroide;
+	private Image imagenAsteroide;
 	private int direccion;
 	
 	
-	public Asteroide(int x, int y, int ancho, int alto, int velocidad, int direccion) {
+	public Asteroide(int x, int y, int ancho, int alto, int velocidad, int direccion, Image imagenAsteroide) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -21,7 +21,7 @@ public class Asteroide {
 		this.alto = alto;
 		this.velocidad = velocidad;
 		this.direccion = direccion;
-		//this.ImagenAsteroide = imagenAsteroide;
+		this.imagenAsteroide = imagenAsteroide;
 	}
 	
 	public int getX() {
@@ -84,8 +84,8 @@ public class Asteroide {
 	}
 	
 	void dibujarse(Entorno entorno) {
-		//entorno.dibujarImagen(ImagenAsteroide, this.x, this.y, 0);
-		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
+		entorno.dibujarImagen(this.imagenAsteroide, this.x, this.y, 0);
+		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
 	}
 	
 	
