@@ -63,7 +63,7 @@ public class DestructorEstelar {
 	
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(ImagenDestructor, this.x, this.y, 0);
-		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.RED);
+		
 	}
 	
 	

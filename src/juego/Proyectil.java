@@ -68,7 +68,6 @@ public class Proyectil {
 	}
 	
 	void dibujarse(Entorno entorno) {
-		//entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.GREEN);
 		entorno.dibujarImagen(ImagenProyectil, this.x, this.y, 0);
 	}
 	

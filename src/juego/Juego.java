@@ -17,7 +17,7 @@ public class Juego extends InterfaceJuego{
 	private DestructorEstelar[] destructorEstelar;
 	private Asteroide[] asteroides;
 	private Proyectil proyectil;
-	Random rand = new Random();
+	
     boolean destructores = false;
     int destructoresEliminados = 0;
     boolean juegoPerdido;
@@ -35,9 +35,9 @@ public class Juego extends InterfaceJuego{
 	{
 		this.entorno = new Entorno(this, "Lost Galaxian - Grupo 15 - v1", 800, 600);
 		juegoPerdido = false;
+		this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);	
         this.destructorEstelar = new DestructorEstelar[5];
         generarDestructoresEstelares(ImagenDestructor);
-        this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);	
         this.asteroides = new Asteroide[4];
         generarAsteroides();
 		this.entorno.iniciar();
@@ -172,9 +172,9 @@ public class Juego extends InterfaceJuego{
 			int xRand = getRandomNumber(50, 780);
 			int yRand = 0;
 			if(flagDireccion == 1) {
-				this.asteroides[i] = new Asteroide(xRand, yRand,25, 23, 5, flagDireccion, ImagenAsteroideDER);					
+				this.asteroides[i] = new Asteroide(xRand, yRand,25, 23, 3, flagDireccion, ImagenAsteroideDER);					
 			}else {
-				this.asteroides[i] = new Asteroide(xRand, yRand,25, 23, 5, flagDireccion, ImagenAsteroideIZQ);
+				this.asteroides[i] = new Asteroide(xRand, yRand,25, 23, 3, flagDireccion, ImagenAsteroideIZQ);
 			}		
 		}
 	}
@@ -184,9 +184,9 @@ public class Juego extends InterfaceJuego{
 		int xRand = getRandomNumber(50, 780);
 		int yRand = 0;
 		if(flagDireccion == 1) {
-			this.asteroides[posicion] = new Asteroide(xRand, yRand,25, 23, 5, flagDireccion, ImagenAsteroideDER);					
+			this.asteroides[posicion] = new Asteroide(xRand, yRand,25, 23, 3, flagDireccion, ImagenAsteroideDER);					
 		}else {
-			this.asteroides[posicion] = new Asteroide(xRand, yRand,25, 23, 5, flagDireccion, ImagenAsteroideIZQ);
+			this.asteroides[posicion] = new Asteroide(xRand, yRand,25, 23, 3, flagDireccion, ImagenAsteroideIZQ);
 		}
 	}
 	

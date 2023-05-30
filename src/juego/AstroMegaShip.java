@@ -77,7 +77,6 @@ public class AstroMegaShip {
 	
 
 	void dibujarse(Entorno entorno) {
-//		entorno.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.YELLOW);
 		entorno.dibujarImagen(ImagenAstro, this.x, this.y, 0);
 	}
 }
