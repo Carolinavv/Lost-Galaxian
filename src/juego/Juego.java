@@ -94,8 +94,20 @@ public class Juego extends InterfaceJuego{
 			}
 			
 			if(colisionNaveEnemigo()) {
-				System.out.println("colsionm");
 				juegoPerdido = true;
+			}
+			
+			if(this.asteroides != null) {
+				if(colisionAsteroideConAstroMegaShip()) {
+					juegoPerdido = true;
+				}
+				for (int i = 0; i < asteroides.length; i++) {
+				
+					if(this.asteroides[i].getY() >= 600 || this.asteroides[i].getY() <= 0 || this.asteroides[i].getX() > 600 || this.asteroides[i].getX() < 0 ) {
+							this.asteroides[i] = null;
+							generarNuevosAsteroides(i);
+					}
+				}
 			}
 			
 			
@@ -213,6 +225,23 @@ public class Juego extends InterfaceJuego{
 			}
 		}
 	}
+	
+	private boolean colisionAsteroideConAstroMegaShip() {
+		for (int i = 0; i < asteroides.length ; i++) {
+			if(
+					(this.asteroides[i].getY() >=  this.astroAMegaShip.getY()-(this.astroAMegaShip.getAlto()/2) && this.asteroides[i].getY() <=  this.astroAMegaShip.getY()+(this.astroAMegaShip.getAlto()/2)) &&
+					(this.asteroides[i].getX() >=  this.astroAMegaShip.getX()-(this.astroAMegaShip.getAncho()/2) && this.asteroides[i].getX() <=  this.astroAMegaShip.getX()+(this.astroAMegaShip.getAncho()/2))) {
+				System.out.println("colision asteroide / nave");
+				return true;
+			}			
+			
+		}
+		return false;
+	}
+	
+	
+	
+	
 	
 	private boolean colisionBordeDer() {
 		return((this.astroAMegaShip.getX() + (this.astroAMegaShip.getAncho() / 2) > this.entorno.ancho()) );
