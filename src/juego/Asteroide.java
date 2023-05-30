@@ -14,7 +14,6 @@ public class Asteroide {
 	
 	
 	public Asteroide(int x, int y, int ancho, int alto, int velocidad, int direccion, Image imagenAsteroide) {
-		super();
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
@@ -74,12 +73,12 @@ public class Asteroide {
 	}
 
 	void moverDerecha() {
-		this.y = this.y + 1;
+		this.y = this.y + this.velocidad;
 		this.x = this.x + 1;
 	}
 	
 	void moverIzquierda() {
-		this.y = this.y + 1;
+		this.y = this.y + this.velocidad;
 		this.x = this.x - 1;
 	}
 	
