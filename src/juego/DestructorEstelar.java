@@ -47,19 +47,28 @@ public class DestructorEstelar {
 	public void setAlto(int alto) {
 		this.alto = alto;
 	}
-	void moverDerecha () {
-		this.x = this.x + this.velocidad;	
-		this.y = this.y + 1;
+	public boolean moverDerecha() {
+		this.x = this.x + 20;	
+		return true;
 	}
 		
-	void moverIzquierda(){
-		this.x = this.x - this.velocidad;
-		this.y = this.y + 1;
+	public boolean moverIzquierda(){
+		this.x = this.x - 20;
+	
+		return true;
+		
 	}
 	
 	void moverAbajo() {
 		this.y = this.y + 1;
 	}
+	
+	
+	
+	public Proyectil disparar() {
+		return new Proyectil(this.x, this.y + 42, 4, 4, 90);
+	}
+	
 	
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(ImagenDestructor, this.x, this.y, 0);
