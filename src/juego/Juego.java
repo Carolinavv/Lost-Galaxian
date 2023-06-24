@@ -57,7 +57,7 @@ public class Juego extends InterfaceJuego{
 			moverAsteroides();
 						
 			if(estaDisparando == false) {
-				if(this.entorno.sePresiono('e')) {
+				if(this.entorno.sePresiono('e') || this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
 					proyectil = this.astroAMegaShip.disparar();
 					estaDisparando = true;
 				}
@@ -114,7 +114,7 @@ public class Juego extends InterfaceJuego{
 			
 			if( this.destructorEstelar != null ) {
 				for (int i = 0; i < destructorEstelar.length; i++) {
-					colisionAsteroideDestructorEstelar();
+//					colisionAsteroideDestructorEstelar();
 					if(this.destructorEstelar[i] != null) {
 						//Borra el enemigo al llegar al borde inferior
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() < -100) {
@@ -246,37 +246,37 @@ public class Juego extends InterfaceJuego{
 		return false;
 	}
 	
-	private boolean colisionAsteroideDestructorEstelar() {
-		for (int i = 0; i < asteroides.length ; i++) {
-			for(int j = 0; j < destructorEstelar.length ; j++) {
-				if(asteroides[i] != null && destructorEstelar[j] != null) {
-					if(
-							//Si el asteroide se acerca a una destructorEstelar se mueve el destructorEstelar para evitar una colsion
-							(this.asteroides[i].getY()+30 >=  this.destructorEstelar[j].getY()-(this.destructorEstelar[j].getAlto()/2) && this.asteroides[i].getY() <=  this.destructorEstelar[j].getY()+(this.destructorEstelar[j].getAlto()/2)) &&
-							(this.asteroides[i].getX()+30 >=  this.destructorEstelar[j].getX()-(this.destructorEstelar[j].getAncho()/2) && this.asteroides[i].getX() <=  this.destructorEstelar[j].getX()+(this.destructorEstelar[j].getAncho()/2))) {
-						if(this.asteroides[i].getDireccion() == 1) {
-							//Mueve el destructor a la izquierda
-							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()-50);
-							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
-							return true;
-						}else {
-							//Mueve el destructor a la derecha
-							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()+50);
-							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
-							
-							return true;
-						}
-						
-						
-					}
-					
-				}
-				
-			}
-			
-		}
-		return false;
-	}
+//	private boolean colisionAsteroideDestructorEstelar() {
+//		for (int i = 0; i < asteroides.length ; i++) {
+//			for(int j = 0; j < destructorEstelar.length ; j++) {
+//				if(asteroides[i] != null && destructorEstelar[j] != null) {
+//					if(
+//							//Si el asteroide se acerca a una destructorEstelar se mueve el destructorEstelar para evitar una colsion
+//							(this.asteroides[i].getY()+30 >=  this.destructorEstelar[j].getY()-(this.destructorEstelar[j].getAlto()/2) && this.asteroides[i].getY() <=  this.destructorEstelar[j].getY()+(this.destructorEstelar[j].getAlto()/2)) &&
+//							(this.asteroides[i].getX()+30 >=  this.destructorEstelar[j].getX()-(this.destructorEstelar[j].getAncho()/2) && this.asteroides[i].getX() <=  this.destructorEstelar[j].getX()+(this.destructorEstelar[j].getAncho()/2))) {
+//						if(this.asteroides[i].getDireccion() == 1) {
+//							//Mueve el destructor a la izquierda
+//							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()-50);
+//							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
+//							return true;
+//						}else {
+//							//Mueve el destructor a la derecha
+//							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()+50);
+//							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
+//							
+//							return true;
+//						}
+//						
+//						
+//					}
+//					
+//				}
+//				
+//			}
+//			
+//		}
+//		return false;
+//	}
 
 	
 	private boolean colisionBordeDer() {
