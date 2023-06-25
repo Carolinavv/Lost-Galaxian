@@ -309,13 +309,40 @@ public class Juego extends InterfaceJuego{
 	        return positions;
 	    }
 	
+	public static int[] generaNuevaPosicion(int pos, int[]positions) {
+        
+        Random random = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            int position = random.nextInt(651) + 80; // Genera un número aleatorio entre 50 y 700
+
+            // Verifica que la posición generada cumpla con los requisitos
+            boolean valid = true;
+            for (int j = 0; j < i; j++) {
+                if (Math.abs(position - positions[j]) < 80) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                positions[pos] = position;
+            } else {
+                // Si la posición generada no cumple los requisitos, genera otra posición
+                i--;
+            }
+        }
+        //System.out.println(positions.toString());
+        return positions;
+    }
+	
 	
 	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
 		//genero nuevas posiciones 
-		nuevasPosicionesEnemigos = generaPosiciones();
+		//nuevasPosicionesEnemigos = generaPosiciones();
 		//asigno la posicion nueva a el array de posiciones 
-		posicionesEnemigos[posicion] = nuevasPosicionesEnemigos[posicion];
-		this.destructorEstelar[posicion] = new DestructorEstelar(nuevasPosicionesEnemigos[posicion], -50, 50, 55, 2, ImagenDestructor);	
+		posicionesEnemigos = generaNuevaPosicion(posicion, posicionesEnemigos);
+		this.destructorEstelar[posicion] = new DestructorEstelar(posicionesEnemigos[posicion], -50, 50, 55, 2, ImagenDestructor);	
 	}
 	
 	private void dibujarDestructoresEstelares() {
