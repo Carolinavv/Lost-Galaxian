@@ -67,6 +67,11 @@ public class Proyectil {
 		 return true;
 	}
 	
+	public boolean avanzarAbajo() {
+		 this.y = this.y + this.velocidad;
+		 return true;
+	}
+	
 	void dibujarse(Entorno entorno) {
 		entorno.dibujarImagen(ImagenProyectil, this.x, this.y, 0);
 	}

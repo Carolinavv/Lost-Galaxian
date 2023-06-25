@@ -66,7 +66,7 @@ public class DestructorEstelar {
 	
 	
 	public Proyectil disparar() {
-		return new Proyectil(this.x, this.y + 42, 4, 4, 90);
+		return new Proyectil(this.x, this.y + 4, 4, 4, 9);
 	}
 	
 	
