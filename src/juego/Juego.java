@@ -38,7 +38,7 @@ public class Juego extends InterfaceJuego{
 	double frecuencia = 0.5 ; // Frecuencia de la oscilación (oscilaciones por tick)
 	double velocidad = 0.1; // Velocidad de la oscilación (cantidad de cambio por tick)
 	int posicion_inicial = 0;
-	int tiempo = 0;
+
 	long tiempoInicial = System.currentTimeMillis();
 	
 	Juego()
@@ -47,13 +47,13 @@ public class Juego extends InterfaceJuego{
 		juegoPerdido = false;
 		this.astroAMegaShip = new AstroMegaShip(50, 400, 520, 55,3, nave);	
         this.destructorEstelar = new DestructorEstelar[5];
-        //generarDestructoresEstelares(ImagenDestructor);
+        
         this.asteroides = new Asteroide[4];
         generarAsteroides();
-        //generatePositions();
+  
 		this.entorno.iniciar();
 	
-		posicionesEnemigos = generatePositions();
+		posicionesEnemigos = generaPosiciones();
 		System.out.println("Posiciones generadas: " + Arrays.toString(posicionesEnemigos));
 		generarDestructoresEstelares(ImagenDestructor);
 	}
@@ -70,7 +70,7 @@ public class Juego extends InterfaceJuego{
 			dibujarAsteroides();
 			moverDestructoresEstelares();
 			moverAsteroides();
-			tiempo += 1;
+		
 						
 			if(estaDisparando == false) {
 				if(this.entorno.sePresiono('e') || this.entorno.sePresiono(entorno.TECLA_ESPACIO)) {
@@ -79,6 +79,7 @@ public class Juego extends InterfaceJuego{
 				}
 			}
 			movimientoproyectil();
+			generaPosiciones();
 			
 			
 			
@@ -131,7 +132,7 @@ public class Juego extends InterfaceJuego{
 			
 			 long tiempoActual = System.currentTimeMillis();
 
-	            // Calcular el tiempo transcurrido en segundos
+	         // Calcular el tiempo transcurrido en segundos
 	         double tiempoTranscurrido = (tiempoActual - tiempoInicial) / 1000.0;
 
 			if( this.destructorEstelar != null ) {
@@ -139,16 +140,13 @@ public class Juego extends InterfaceJuego{
 					
 					
 					if(this.destructorEstelar[i] != null) {
-						//problema con la posicion iniclai cuando se borra el obj
+						//oscilacion
 						int value = (int) ( amplitud * Math.sin(2 * Math.PI * frecuencia * tiempoTranscurrido) + velocidad * tiempoTranscurrido + posicionesEnemigos[i]);
 						destructorEstelar[i].setX(value);
-						
-						
 						
 						//Borra el enemigo al llegar al borde inferior
 						if(this.destructorEstelar[i].getY() >= 600 || this.destructorEstelar[i].getY() < -100) {
 							this.destructorEstelar[i] = null;
-							
 						}						
 					}else {
 						//genera un nuevo enemigo en la posicion del arreglo del que fue borrado
@@ -221,17 +219,13 @@ public class Juego extends InterfaceJuego{
 		}
 	}
 	
-	
-	
 	private void generarDestructoresEstelares(Image ImagenDestructor) {
 		for(int i = 0; i < posicionesEnemigos.length ; i++) {
 			this.destructorEstelar[i] = new DestructorEstelar(posicionesEnemigos[i], 0, 50, 55, 2, ImagenDestructor);	
 		}
 	}
 	
-	
-	
-	 public static int[] generatePositions() {
+	public static int[] generaPosiciones() {
 	        int[] positions = new int[5];
 	        Random random = new Random();
 
@@ -260,10 +254,11 @@ public class Juego extends InterfaceJuego{
 	
 	
 	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
-		nuevasPosicionesEnemigos = generatePositions();
-		int xRand = getRandomNumber(80, 700);
-		int yRand = -50;
-		this.destructorEstelar[posicion] = new DestructorEstelar(nuevasPosicionesEnemigos[posicion], yRand, 50, 55, 2, ImagenDestructor);	
+		//genero nuevas posiciones 
+		nuevasPosicionesEnemigos = generaPosiciones();
+		//asigno la posicion nueva a el array de posiciones 
+		posicionesEnemigos[posicion] = nuevasPosicionesEnemigos[posicion];
+		this.destructorEstelar[posicion] = new DestructorEstelar(nuevasPosicionesEnemigos[posicion], -50, 50, 55, 2, ImagenDestructor);	
 	}
 	
 	private void dibujarDestructoresEstelares() {
@@ -295,39 +290,6 @@ public class Juego extends InterfaceJuego{
 		return false;
 	}
 	
-//	private boolean colisionAsteroideDestructorEstelar() {
-//		for (int i = 0; i < asteroides.length ; i++) {
-//			for(int j = 0; j < destructorEstelar.length ; j++) {
-//				if(asteroides[i] != null && destructorEstelar[j] != null) {
-//					if(
-//							//Si el asteroide se acerca a una destructorEstelar se mueve el destructorEstelar para evitar una colsion
-//							(this.asteroides[i].getY()+30 >=  this.destructorEstelar[j].getY()-(this.destructorEstelar[j].getAlto()/2) && this.asteroides[i].getY() <=  this.destructorEstelar[j].getY()+(this.destructorEstelar[j].getAlto()/2)) &&
-//							(this.asteroides[i].getX()+30 >=  this.destructorEstelar[j].getX()-(this.destructorEstelar[j].getAncho()/2) && this.asteroides[i].getX() <=  this.destructorEstelar[j].getX()+(this.destructorEstelar[j].getAncho()/2))) {
-//						if(this.asteroides[i].getDireccion() == 1) {
-//							//Mueve el destructor a la izquierda
-//							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()-50);
-//							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
-//							return true;
-//						}else {
-//							//Mueve el destructor a la derecha
-//							this.destructorEstelar[j].setX(this.destructorEstelar[j].getX()+50);
-//							this.destructorEstelar[j].setY(this.destructorEstelar[j].getY()-80);
-//							
-//							return true;
-//						}
-//						
-//						
-//					}
-//					
-//				}
-//				
-//			}
-//			
-//		}
-//		return false;
-//	}
-
-	
 	private boolean colisionBordeDer() {
 		return((this.astroAMegaShip.getX() + (this.astroAMegaShip.getAncho() / 2) > this.entorno.ancho()) );
 		
@@ -358,6 +320,7 @@ public class Juego extends InterfaceJuego{
 				if(
 						(this.proyectil.getY() >=  this.destructorEstelar[i].getY()-(this.destructorEstelar[i].getAlto()/2) && this.proyectil.getY() <=  this.destructorEstelar[i].getY()+(this.destructorEstelar[i].getAlto()/2)) &&
 						(this.proyectil.getX() >=  this.destructorEstelar[i].getX()-(this.destructorEstelar[i].getAncho()/2) && this.proyectil.getX() <=  this.destructorEstelar[i].getX()+(this.destructorEstelar[i].getAncho()/2))) {
+					
 					this.destructorEstelar[i] = null;
 					return true;
 					
