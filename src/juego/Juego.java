@@ -36,8 +36,8 @@ public class Juego extends InterfaceJuego{
 	public Image ImagenAsteroideDER = Herramientas.cargarImagen("Imagenes/AsteroideDER.png");
 	
 	int amplitud = 50 ; // Amplitud de la oscilación
-	double frecuencia = 0.5 ; // Frecuencia de la oscilación (oscilaciones por tick)
-	double velocidad = 0.1; // Velocidad de la oscilación (cantidad de cambio por tick)
+	double frecuencia = 0.3 ; // Frecuencia de la oscilación
+	double velocidad = 0.1; 
 	int posicion_inicial = 0;
 
 	long tiempoInicial = System.currentTimeMillis();
@@ -287,7 +287,7 @@ public class Juego extends InterfaceJuego{
 	        Random random = new Random();
 
 	        for (int i = 0; i < 5; i++) {
-	            int position = random.nextInt(651) + 80; // Genera un número aleatorio entre 50 y 700
+	            int position = random.nextInt(651) + 80; 
 
 	            // Verifica que la posición generada cumpla con los requisitos
 	            boolean valid = true;
@@ -301,7 +301,7 @@ public class Juego extends InterfaceJuego{
 	            if (valid) {
 	                positions[i] = position;
 	            } else {
-	                // Si la posición generada no cumple los requisitos, genera otra posición
+	                // Si la posición generada no cumple, genera otra posición
 	                i--;
 	            }
 	        }
@@ -310,11 +310,9 @@ public class Juego extends InterfaceJuego{
 	    }
 	
 	public static int[] generaNuevaPosicion(int pos, int[]positions) {
-        
         Random random = new Random();
-
         for (int i = 0; i < 5; i++) {
-            int position = random.nextInt(651) + 80; // Genera un número aleatorio entre 50 y 700
+            int position = random.nextInt(651) + 80;
 
             // Verifica que la posición generada cumpla con los requisitos
             boolean valid = true;
@@ -332,15 +330,13 @@ public class Juego extends InterfaceJuego{
                 i--;
             }
         }
-        //System.out.println(positions.toString());
+   
         return positions;
     }
 	
 	
 	private void generarNuevoDestructorEstelar(int posicion, Image ImagenDestructor) {
-		//genero nuevas posiciones 
-		//nuevasPosicionesEnemigos = generaPosiciones();
-		//asigno la posicion nueva a el array de posiciones 
+		//genero una nueva posicion 
 		posicionesEnemigos = generaNuevaPosicion(posicion, posicionesEnemigos);
 		this.destructorEstelar[posicion] = new DestructorEstelar(posicionesEnemigos[posicion], -50, 50, 55, 2, ImagenDestructor);	
 	}
